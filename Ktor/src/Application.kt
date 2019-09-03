@@ -59,14 +59,6 @@ fun Application.module(testing: Boolean = false) {
         static("/static") {
             resources("static")
         }
-        //尝试完成但没有完成的refresh token功能（没有合适的测试环境
-        get("/refresh"){
-            val session = call.sessions.get<MySession>()
-            val json = HttpClient(Apache).get<String>("http://192.168.99.77:9998/me?") {
-            headers["Authorization"] = "Bearer " +"${session?.token}"
-            }
-            call.respondText{json}
-        }
         authenticate("LoginOAuth") {
             location<login>() {
                 //client ID或client secret或redirect URL错误
@@ -87,7 +79,7 @@ fun Application.module(testing: Boolean = false) {
                         //call.respondText { principal.accessToken }     //检查是否得到token
                         //以下利用token摘取页面信息
                         when(place) {
-                            "github" -> {
+                            "Github" -> {
                                 json = HttpClient(Apache).get<String>("https://api.github.com/user?") {
                                     headers["Authorization"] = "Bearer " + "${principal.accessToken}"
                                 }

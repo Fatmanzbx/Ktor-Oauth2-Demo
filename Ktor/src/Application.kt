@@ -30,7 +30,7 @@ val loginProviders = listOf(
         requestMethod = HttpMethod.Post,
         defaultScopes = listOf("https://www.googleapis.com/auth/plus.login")
     )
-    //可添加其它服务器
+    //May add another sever
 ).associateBy {it.name}
 @Location("/login/{type?}") class login(val type: String = "")
 @Suppress("unused") // Referenced in application.conf
@@ -106,7 +106,7 @@ fun Application.module(testing: Boolean = false) {
         }
     }
 }
-//重定向URL
+//Redirecting URL
 private fun <T : Any> ApplicationCall.redirectUrl(t: T, secure: Boolean = true): String {
     val hostPort = request.host()!! + request.port().let { port -> if (port == 80) "" else ":$port" }
     val protocol = when {
@@ -115,7 +115,7 @@ private fun <T : Any> ApplicationCall.redirectUrl(t: T, secure: Boolean = true):
     }
     return "$protocol://$hostPort${application.locations.href(t)}"
 }
-//登陆页
+//Login
 private suspend fun ApplicationCall.loginPage(name: String?) {
     respondHtml {
         head {
@@ -144,7 +144,7 @@ private suspend fun ApplicationCall.loginPage(name: String?) {
         }
     }
 }
-//失败
+//failiar
 private suspend fun ApplicationCall.loginFailedPage(errors: List<String>) {
     respondHtml {
         head {
@@ -165,7 +165,7 @@ private suspend fun ApplicationCall.loginFailedPage(errors: List<String>) {
         }
     }
 }
-//成功
+//Success
 private suspend fun ApplicationCall.loggedInSuccessResponse(name: String, email: String) {
     respondHtml {
         head {
@@ -191,7 +191,7 @@ private suspend fun ApplicationCall.loggedInSuccessResponse(name: String, email:
     }
 }
 
-//摘取信息的方法
+//get information
 inline fun read( para:String, json : String):String{
     val na = json.substringAfter(para)
     val name = na.substringBefore(",")
